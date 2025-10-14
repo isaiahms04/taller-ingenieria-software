@@ -64,3 +64,4 @@ Abrir en el navegador:
   - Enviar el formulario.
 2. Visualizar eventos:
   - Los eventos se muestran en la galería de la página principal (index.html) con su imagen y descripción.
+  - Las consultas se realizan pidiendo todos los datos que se necesiten y solicitando datos de id referidas en otras tablas.
