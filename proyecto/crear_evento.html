@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="crear_eventos_style.css">
+    <title>Document</title>
+</head>
+<body>
+    <h2 style="text-align:center;">Crear Nuevo Evento</h2>
+
+    <form action="crear_evento.php" method="POST">
+        <label for="titulo">Título del evento:</label>
+        <input type="text" id="titulo" name="titulo" required>
+
+        <label for="descripcion">Descripción:</label>
+        <textarea id="descripcion" name="descripcion"></textarea>
+
+        <label for="modalidad">Modalidad:</label>
+        <select id="modalidad" name="modalidad" required>
+            <option value="Presencial">Presencial</option>
+            <option value="Online">Online</option>
+        </select>
+
+        <div id="ubicacionDiv">
+            <label for="ubicacion">Ubicación (solo presencial):</label>
+            <input type="text" id="ubicacion" name="ubicacion">
+        </div>
+
+        <div id="enlaceDiv" style="display:none;">
+            <label for="enlace_online">Enlace online (solo online):</label>
+            <input type="url" id="enlace_online" name="enlace_online">
+        </div>
+
+        <label for="fecha_inicio">Fecha y hora de inicio:</label>
+        <input type="datetime-local" id="fecha_inicio" name="fecha_inicio" required>
+
+        <label for="fecha_fin">Fecha y hora de fin:</label>
+        <input type="datetime-local" id="fecha_fin" name="fecha_fin">
+
+        <button type="submit">Crear Evento</button>
+    </form>
+
+    <script>
+        const modalidad = document.getElementById('modalidad');
+        const ubicacionDiv = document.getElementById('ubicacionDiv');
+        const enlaceDiv = document.getElementById('enlaceDiv');
+
+        modalidad.addEventListener('change', function() {
+            if(this.value === 'Presencial') {
+                ubicacionDiv.style.display = 'block';
+                enlaceDiv.style.display = 'none';
+            } else {
+                ubicacionDiv.style.display = 'none';
+                enlaceDiv.style.display = 'block';
+            }
+        });
+    </script>
+
+</body>
+</html>
