@@ -9,12 +9,16 @@ import { fileURLToPath } from 'url';
 
 const app = express();
 
-const db = mysql.createConnection({
+const db = mysql.createPool({
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
-    port: process.env.DB_PORT
+    port: process.env.DB_PORT,
+    ssl: {
+        rejectUnauthorized: false
+    },
+    connectionLimit: 10
 });
 
 app.use(express.json());
@@ -142,4 +146,12 @@ app.get("/eventos", (req,res)=>{
 const PORT = process.env.PORT || 8800;
 app.listen(PORT, ()=> {
   console.log("Servidor corriendo en puerto " + PORT);
+});
+
+db.query('SELECT 1', (err) => {
+  if (err) {
+    console.error("❌ Error conectando a Railway:", err);
+  } else {
+    console.log("✅ Conexión MySQL lista (Railway)");
+  }
 });
