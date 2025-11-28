@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import './home.scss'
 import axios from 'axios'
+import api from '../../api'; // Ajusta la ruta según tu proyecto
+
 import { Link } from 'react-router-dom'
 
 const Home = () => {
@@ -10,7 +12,7 @@ const Home = () => {
   useEffect(()=>{
     const fetchAllEventos = async ()=> {
       try {
-        const res = await axios.get("http://localhost:8800/eventos")
+        const res = await axios.get("/eventos")
         setEventos(res.data)
       } catch (err) {
         console.log(err)
@@ -21,7 +23,7 @@ const Home = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete("http://localhost:8800/eventos/"+id)
+      await axios.delete("/eventos/${id}")
       window.location.reload()
     } catch (err) {
       

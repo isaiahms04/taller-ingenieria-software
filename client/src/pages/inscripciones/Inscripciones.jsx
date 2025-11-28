@@ -12,7 +12,7 @@ const Inscripciones = () => {
   useEffect(() => {
     (async () => {
       try {
-        const { data } = await axios.get('http://localhost:8800/eventos-conteo');
+        const { data } = await axios.get('/eventos-conteo');
         setEventos(Array.isArray(data) ? data : []);
       } catch (e) {
         setError('No pude cargar los eventos');

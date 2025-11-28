@@ -28,7 +28,7 @@ const Add = () => {
     formData.append("image", file);
 
     try {
-      const res = await axios.post("http://localhost:8800/upload", formData, {
+      const res = await axios.post("/upload", formData, {
         headers: { "Content-Type": "multipart/form-data" }
       });
 
@@ -43,7 +43,7 @@ const Add = () => {
   const handleClick = async e =>{
     e.preventDefault()
     try {
-      await axios.post("http://localhost:8800/eventos", evento)
+      await axios.post("/eventos", evento)
       navigate("/")
     } catch (err) {
       console.log(err)

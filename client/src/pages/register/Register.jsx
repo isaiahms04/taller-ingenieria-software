@@ -16,7 +16,7 @@ const Register = () => {
     setError(null);
 
     try {
-      const { data } = await axios.post("http://localhost:8800/auth/register", {
+      const { data } = await axios.post("/auth/register", {
         nombre,
         email,
         password,
