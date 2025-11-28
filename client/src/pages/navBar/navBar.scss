@@ -1,0 +1,56 @@
+.navBar{
+    height: 150px;
+    background-color: rgb(66, 108, 201);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0px 50px;
+    position: sticky;
+    top: 0;
+
+    .left {
+        flex: 1;
+        display: flex;
+        align-items:center;
+        gap: 15px;
+        img{
+            height: 100px;
+        }
+
+        span {
+            font-size: 25px;
+            color: white;
+        }
+    }
+
+    .center {
+        flex: 1;
+        button {
+            border: none;
+            background-color: rgb(6, 49, 105);
+            color: white;
+            font-weight: bold;
+            padding: 10px 15px;
+            cursor: pointer;
+        }
+    }
+
+    .right {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 15px;
+        
+        
+        a {
+            text-decoration: none;
+            color: white;
+        }
+    }
+    .rol {
+  margin-left: 10px;
+  font-weight: bold;
+  color: #444;
+}
+}

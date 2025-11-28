@@ -1,0 +1,103 @@
+/* Fondo oscuro y centrado */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(2px);
+}
+
+/* Tarjeta flotante */
+.modal-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 24px 28px;
+  width: min(90vw, 420px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  position: relative;
+  animation: pop 0.25s ease-out;
+}
+
+@keyframes pop {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Botón cerrar */
+.cerrar {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #555;
+  transition: 0.2s;
+}
+.cerrar:hover {
+  color: #000;
+}
+
+/* Inputs y labels */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+label {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+input {
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+/* Botones */
+.acciones {
+  margin-top: 14px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+button {
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+button[type="submit"] {
+  background: #007bff;
+  color: white;
+}
+
+button.cancelar {
+  background: #ccc;
+}
+
+.ok {
+  color: #007b55;
+  margin-top: 10px;
+}
+
+.error {
+  color: #b00020;
+  margin-top: 10px;
+}
