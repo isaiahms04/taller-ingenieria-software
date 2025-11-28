@@ -28,21 +28,27 @@ app.use(express.json());
 
 // ------------------ CORS ------------------
 const allowedOrigins = [
-  process.env.FRONTEND_URL, // ejemplo: https://taller-ingenieria-software.vercel.app
-  'http://localhost:3000'   // desarrollo
+  'https://taller-ingenieria-software.vercel.app', // Tu frontend en producción (SIN barra al final)
+  'http://localhost:3000', // Tu frontend en desarrollo
+  process.env.FRONTEND_URL // Por si acaso la defines en variables de entorno
 ];
 
 app.use(cors({
-  origin: function(origin, callback){
-    if(!origin) return callback(null, true); // Postman, curl
-    if(!allowedOrigins.includes(origin)){
-      return callback(new Error('El CORS no permite este origen'), false);
+  origin: function (origin, callback) {
+    // Permitir solicitudes sin origen (como Postman o aplicaciones móviles)
+    if (!origin) return callback(null, true);
+    
+    // Verificar si el origen está permitido
+    if (allowedOrigins.indexOf(origin) === -1) {
+      const msg = 'La política CORS no permite acceso desde este origen: ' + origin;
+      return callback(new Error(msg), false);
     }
     return callback(null, true);
   },
-  methods: ['GET','POST','PUT','DELETE','OPTIONS'],
-  allowedHeaders: ['Content-Type','Authorization'],
-  credentials: true
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,
+  optionsSuccessStatus: 200 // Importante para navegadores antiguos/proxies
 }));
 
 // Archivos estáticos
