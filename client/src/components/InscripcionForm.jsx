@@ -1,8 +1,8 @@
 import React, { useState } from "react";
+import api from "../api"; // ajusta la ruta según tu proyecto
+
 import axios from "axios";
 import "./inscripcionModal.scss"; // estilos que te doy abajo
-
-const API = "http://localhost:8800";
 
 const InscripcionForm = ({ evento, onClose }) => {
   const [nombre, setNombre] = useState("");
@@ -19,7 +19,7 @@ const InscripcionForm = ({ evento, onClose }) => {
     setErr(null);
 
     try {
-      await axios.post(`${API}/inscripciones`, {
+      await axios.post(`/inscripciones`, {
         evento_id: evento.id,
         nombre,
         email,

@@ -146,7 +146,7 @@ app.get("/eventos", (req,res)=>{
 });
 
 // Servidor
-const PORT = process.env.PORT || 8800;
+const PORT = process.env.PORT;
 app.listen(PORT, ()=> {
   console.log("Servidor corriendo en puerto " + PORT);
 });
