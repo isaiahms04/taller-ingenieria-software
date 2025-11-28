@@ -32,8 +32,8 @@ const allowedOrigins = [
 ];
 
 app.use(cors({
-  origin: function(origin, callback){
-    // permitir requests sin origin (como Postman)
+  origin: function(origin, callback) {
+    // permitir requests sin origin (Postman, curl)
     if(!origin) return callback(null, true);
     if(allowedOrigins.indexOf(origin) === -1){
       const msg = 'El CORS no permite este origen';
@@ -41,7 +41,9 @@ app.use(cors({
     }
     return callback(null, true);
   },
-  credentials: true // si vas a usar cookies o auth
+  methods: ['GET','POST','PUT','DELETE','OPTIONS'],
+  allowedHeaders: ['Content-Type','Authorization'],
+  credentials: true
 }));
 
 // Archivos estáticos
