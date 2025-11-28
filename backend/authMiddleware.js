@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'dev_secret_key_cambia_esto';
+const JWT_SECRET = process.env.JWT_SECRET;
 
 export const signToken = (payload) =>
   jwt.sign(payload, JWT_SECRET, { expiresIn: '2h' });
