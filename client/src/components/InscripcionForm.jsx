@@ -19,7 +19,7 @@ const InscripcionForm = ({ evento, onClose }) => {
     setErr(null);
 
     try {
-      await axios.post(`/inscripciones`, {
+      await axios.post(`https://taller-ingenieria-software.vercel.app/inscripciones`, {
         evento_id: evento.id,
         nombre,
         email,

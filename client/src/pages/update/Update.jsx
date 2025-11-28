@@ -32,7 +32,7 @@ const Update = () => {
     formData.append("image", file);
 
     try {
-      const res = await axios.post("/upload", formData, {
+      const res = await axios.post("https://taller-ingenieria-software.vercel.app/upload", formData, {
         headers: { "Content-Type": "multipart/form-data" }
       });
 
@@ -47,7 +47,7 @@ const Update = () => {
   const handleClick = async e =>{
     e.preventDefault()
     try {
-      await axios.put("/eventos/"+eventoId, evento)
+      await axios.put(`https://taller-ingenieria-software.vercel.app/eventos/${eventoId}, ${evento}`)
       navigate("/")
     } catch (err) {
       
