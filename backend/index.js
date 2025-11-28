@@ -25,7 +25,24 @@ const db = mysql.createPool({
 });
 
 app.use(express.json());
-app.use(cors());
+
+const allowedOrigins = [
+  'https://taller-ingenieria-software.vercel.app', // tu frontend en Vercel
+  'http://localhost:3000' // para desarrollo local
+];
+
+app.use(cors({
+  origin: function(origin, callback){
+    // permitir requests sin origin (como Postman)
+    if(!origin) return callback(null, true);
+    if(allowedOrigins.indexOf(origin) === -1){
+      const msg = 'El CORS no permite este origen';
+      return callback(new Error(msg), false);
+    }
+    return callback(null, true);
+  },
+  credentials: true // si vas a usar cookies o auth
+}));
 
 // Archivos estáticos
 const __filename = fileURLToPath(import.meta.url);
