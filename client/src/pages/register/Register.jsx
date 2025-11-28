@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import api from "../api"; // Ajusta la ruta según tu proyecto
+import api from "../../api"; // Ajusta la ruta según tu proyecto
 import "./register.scss";
 
 const Register = () => {
