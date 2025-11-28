@@ -12,7 +12,7 @@ const Inscripciones = () => {
   useEffect(() => {
     (async () => {
       try {
-        const { data } = await axios.get('/eventos-conteo');
+        const { data } = await axios.get('https://taller-ingenieria-software.vercel.app/eventos-conteo');
         setEventos(Array.isArray(data) ? data : []);
       } catch (e) {
         setError('No pude cargar los eventos');
