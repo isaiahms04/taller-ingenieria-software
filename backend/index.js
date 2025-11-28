@@ -34,21 +34,14 @@ const allowedOrigins = [
 
 app.use(cors({
   origin: function(origin, callback){
-    // Permitir solicitudes sin origen (como Postman o Apps móviles)
     if(!origin) return callback(null, true);
-
-    // 1. Verificar si está en la lista blanca exacta
     if(allowedOrigins.includes(origin)){
       return callback(null, true);
     }
-
-    // 2. NUEVO: Verificar si es una URL de preview de Vercel (termina en .vercel.app)
-    // Esto arregla el error con la URL larga que tienes ahora
+    // Permitir previews de Vercel
     if(origin.endsWith('.vercel.app')){
       return callback(null, true);
     }
-
-    // Si no cumple nada de lo anterior, bloquear
     return callback(new Error('Bloqueado por CORS: ' + origin), false);
   },
   methods: ['GET','POST','PUT','DELETE','OPTIONS'],
@@ -71,7 +64,7 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
-// ------------------ RUTAS ------------------
+// ------------------ RUTAS DE AUTH ------------------
 
 // Registro
 app.post('/auth/register', (req, res) => {
@@ -114,19 +107,70 @@ app.post('/auth/login', (req, res) => {
 // Upload
 app.post('/upload', upload.single('image'), (req,res) => {
   if(!req.file) return res.status(400).json({ success: false, error: 'No se recibió archivo' });
-  const fileUrl = `${process.env.PUBLIC_URL}/uploads/${req.file.filename}`;
+  // NOTA: Asegúrate de tener la variable PUBLIC_URL en Render (ej: https://taller-ingenieria-software.onrender.com)
+  const baseUrl = process.env.PUBLIC_URL || `${req.protocol}://${req.get('host')}`;
+  const fileUrl = `${baseUrl}/uploads/${req.file.filename}`;
   return res.json({ success: true, url: fileUrl });
 });
 
-// Test
 app.get("/", (req,res)=> res.json("hola este es el backend"));
 
-// Eventos
+// ------------------ RUTAS DE EVENTOS ------------------
+
+// 1. Obtener todos los eventos
 app.get("/eventos", (req,res)=>{
   const q = "SELECT * FROM eventos";
   db.query(q,(err,data)=>{
     if(err) return res.json(err);
     return res.json(data);
+  });
+});
+
+// 2. Crear un nuevo evento (ESTO FALTABA)
+app.post("/eventos", (req, res) => {
+  const q = "INSERT INTO eventos (`titulo`, `descripcion`, `ubicacion`, `fecha`, `cover`) VALUES (?)";
+  
+  const values = [
+    req.body.titulo,
+    req.body.descripcion,
+    req.body.ubicacion,
+    req.body.fecha,
+    req.body.cover
+  ];
+
+  db.query(q, [values], (err, data) => {
+    if (err) return res.json(err);
+    return res.json("El evento ha sido creado exitosamente.");
+  });
+});
+
+// 3. Eliminar un evento
+app.delete("/eventos/:id", (req, res) => {
+  const eventId = req.params.id;
+  const q = "DELETE FROM eventos WHERE id = ?";
+
+  db.query(q, [eventId], (err, data) => {
+    if (err) return res.json(err);
+    return res.json("El evento ha sido eliminado exitosamente.");
+  });
+});
+
+// 4. Actualizar un evento
+app.put("/eventos/:id", (req, res) => {
+  const eventId = req.params.id;
+  const q = "UPDATE eventos SET `titulo`= ?, `descripcion`= ?, `ubicacion`= ?, `fecha`= ?, `cover`= ? WHERE id = ?";
+
+  const values = [
+    req.body.titulo,
+    req.body.descripcion,
+    req.body.ubicacion,
+    req.body.fecha,
+    req.body.cover
+  ];
+
+  db.query(q, [...values, eventId], (err, data) => {
+    if (err) return res.json(err);
+    return res.json("El evento ha sido actualizado exitosamente.");
   });
 });
 
