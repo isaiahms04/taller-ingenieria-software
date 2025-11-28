@@ -28,27 +28,32 @@ app.use(express.json());
 
 // ------------------ CORS ------------------
 const allowedOrigins = [
-  'https://taller-ingenieria-software.vercel.app', // Tu frontend en producción (SIN barra al final)
-  'http://localhost:3000', // Tu frontend en desarrollo
-  process.env.FRONTEND_URL // Por si acaso la defines en variables de entorno
+  'https://taller-ingenieria-software.vercel.app', // Producción
+  'http://localhost:3000'  // Desarrollo
 ];
 
 app.use(cors({
-  origin: function (origin, callback) {
-    // Permitir solicitudes sin origen (como Postman o aplicaciones móviles)
-    if (!origin) return callback(null, true);
-    
-    // Verificar si el origen está permitido
-    if (allowedOrigins.indexOf(origin) === -1) {
-      const msg = 'La política CORS no permite acceso desde este origen: ' + origin;
-      return callback(new Error(msg), false);
+  origin: function(origin, callback){
+    // Permitir solicitudes sin origen (como Postman o Apps móviles)
+    if(!origin) return callback(null, true);
+
+    // 1. Verificar si está en la lista blanca exacta
+    if(allowedOrigins.includes(origin)){
+      return callback(null, true);
     }
-    return callback(null, true);
+
+    // 2. NUEVO: Verificar si es una URL de preview de Vercel (termina en .vercel.app)
+    // Esto arregla el error con la URL larga que tienes ahora
+    if(origin.endsWith('.vercel.app')){
+      return callback(null, true);
+    }
+
+    // Si no cumple nada de lo anterior, bloquear
+    return callback(new Error('Bloqueado por CORS: ' + origin), false);
   },
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true,
-  optionsSuccessStatus: 200 // Importante para navegadores antiguos/proxies
+  methods: ['GET','POST','PUT','DELETE','OPTIONS'],
+  allowedHeaders: ['Content-Type','Authorization'],
+  credentials: true
 }));
 
 // Archivos estáticos
