@@ -6,6 +6,9 @@ import { signToken, verifyToken, requireAdmin } from './authMiddleware.js';
 import multer from 'multer';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import dotenv from 'dotenv';
+dotenv.config({ path: './key.env' });
+
 
 const app = express();
 
